@@ -5,11 +5,11 @@
 
 typedef struct
 {
-	const uint8_t *data;
-	uint8_t char_w;
-	uint8_t char_h;
-	uint8_t type;
-	uint8_t offset;
+    const uint8_t *data;
+    uint8_t char_w;
+    uint8_t char_h;
+    uint8_t type;
+    uint8_t offset;
 }tFont;
 
 extern const tFont clock_digits;

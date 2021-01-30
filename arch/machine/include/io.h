@@ -9,32 +9,32 @@ extern "C" {
 
 //static inline u8_t read8(uint32_t addr)
 //{
-//	return( *((volatile u8_t *)(addr)) );
+//    return( *((volatile u8_t *)(addr)) );
 //}
 //
 //static inline u16_t read16(uint32_t addr)
 //{
-//	return( *((volatile u16_t *)(addr)) );
+//    return( *((volatile u16_t *)(addr)) );
 //}
 //
 ////static inline u32_t read32(uint32_t addr)
 ////{
-////	return( *((volatile u32_t *)(addr)) );
+////    return( *((volatile u32_t *)(addr)) );
 ////}
 //
 //static inline u64_t read64(uint32_t addr)
 //{
-//	return( *((volatile u64_t *)(addr)) );
+//    return( *((volatile u64_t *)(addr)) );
 //}
 //
 //static inline void write8(uint32_t addr, u8_t value)
 //{
-//	*((volatile u8_t *)(addr)) = value;
+//    *((volatile u8_t *)(addr)) = value;
 //}
 //
 //static inline void write16(uint32_t addr, u16_t value)
 //{
-//	*((volatile u16_t *)(addr)) = value;
+//    *((volatile u16_t *)(addr)) = value;
 //}
 
 #define read8(x) (*(( uint8_t *)(x)))

@@ -8,34 +8,34 @@ extern "C" {
 #include <stdint.h>
 
 typedef enum{
-	GPIO_PULL_UP			= 0,
-	GPIO_PULL_DOWN			= 1,
-	GPIO_PULL_NONE			= 2,
+    GPIO_PULL_UP            = 0,
+    GPIO_PULL_DOWN          = 1,
+    GPIO_PULL_NONE          = 2,
 }gpio_pull_t;
 
 typedef enum{
-	GPIO_DRV_WEAK			= 0,
-	GPIO_DRV_WEAKER			= 1,
-	GPIO_DRV_STRONGER		= 2,
-	GPIO_DRV_STRONG			= 3,
+    GPIO_DRV_WEAK           = 0,
+    GPIO_DRV_WEAKER         = 1,
+    GPIO_DRV_STRONGER       = 2,
+    GPIO_DRV_STRONG         = 3,
 }gpio_drv_t;
 
 typedef enum{
-	GPIO_RATE_SLOW			= 0,
-	GPIO_RATE_FAST			= 1,
+    GPIO_RATE_SLOW          = 0,
+    GPIO_RATE_FAST          = 1,
 }gpio_rate_t;
 
 typedef enum{
-	GPIO_DIRECTION_INPUT	= 0,
-	GPIO_DIRECTION_OUTPUT	= 1,
+    GPIO_DIRECTION_INPUT    = 0,
+    GPIO_DIRECTION_OUTPUT   = 1,
 }gpio_direction_t;
 
 typedef struct 
 {
-	uint32_t virt;
-	int32_t base;
-	int32_t ngpio;
-	int32_t oirq;
+    uint32_t virt;
+    int32_t base;
+    int32_t ngpio;
+    int32_t oirq;
 }gpio_port_t;
 
 extern const gpio_port_t GPIO_PA;

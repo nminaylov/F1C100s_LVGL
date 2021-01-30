@@ -28,94 +28,94 @@
 extern void IRQ_Handler_global(void);
 
 struct pt_regs {
-	long uregs[18];
+    long uregs[18];
 };
 
-#define ARM_cpsr	uregs[16]
-#define ARM_pc		uregs[15]
-#define ARM_lr		uregs[14]
-#define ARM_sp		uregs[13]
-#define ARM_ip		uregs[12]
-#define ARM_fp		uregs[11]
-#define ARM_r10		uregs[10]
-#define ARM_r9		uregs[9]
-#define ARM_r8		uregs[8]
-#define ARM_r7		uregs[7]
-#define ARM_r6		uregs[6]
-#define ARM_r5		uregs[5]
-#define ARM_r4		uregs[4]
-#define ARM_r3		uregs[3]
-#define ARM_r2		uregs[2]
-#define ARM_r1		uregs[1]
-#define ARM_r0		uregs[0]
-#define ARM_ORIG_r0	uregs[17]
+#define ARM_cpsr    uregs[16]
+#define ARM_pc        uregs[15]
+#define ARM_lr        uregs[14]
+#define ARM_sp        uregs[13]
+#define ARM_ip        uregs[12]
+#define ARM_fp        uregs[11]
+#define ARM_r10        uregs[10]
+#define ARM_r9        uregs[9]
+#define ARM_r8        uregs[8]
+#define ARM_r7        uregs[7]
+#define ARM_r6        uregs[6]
+#define ARM_r5        uregs[5]
+#define ARM_r4        uregs[4]
+#define ARM_r3        uregs[3]
+#define ARM_r2        uregs[2]
+#define ARM_r1        uregs[1]
+#define ARM_r0        uregs[0]
+#define ARM_ORIG_r0    uregs[17]
 
-#define PCMASK		0
+#define PCMASK        0
 #define instruction_pointer(regs) \
-	(pc_pointer((regs)->ARM_pc))
+    (pc_pointer((regs)->ARM_pc))
 #define pc_pointer(v) \
-	((v) & ~PCMASK)
+    ((v) & ~PCMASK)
 
 struct arm_regs_t {
-	uint32_t r[13];
-	uint32_t sp;
-	uint32_t lr;
-	uint32_t pc;
-	uint32_t cpsr;
+    uint32_t r[13];
+    uint32_t sp;
+    uint32_t lr;
+    uint32_t pc;
+    uint32_t cpsr;
 };
 
 static void show_regs(struct arm_regs_t * regs)
 {
-	int i;
+    int i;
 
-	printf("pc : [<%08lx>] lr : [<%08lx>] cpsr: %08lx\r\n", regs->pc, regs->lr, regs->cpsr);
-	printf("sp : %08lx\r\n", regs->sp);
-	for(i = 12; i >= 0; i--)
-	{
-		printf("r%-2d: %08lx ", i, regs->r[i]);
-		if(i % 2 == 0)
-			printf("\r\n");
-	}
-	printf("\r\n");
+    printf("pc : [<%08lx>] lr : [<%08lx>] cpsr: %08lx\r\n", regs->pc, regs->lr, regs->cpsr);
+    printf("sp : %08lx\r\n", regs->sp);
+    for(i = 12; i >= 0; i--)
+    {
+        printf("r%-2d: %08lx ", i, regs->r[i]);
+        if(i % 2 == 0)
+            printf("\r\n");
+    }
+    printf("\r\n");
 }
 
 void arm32_do_undefined_instruction(struct arm_regs_t * regs)
 {
-	printf("\r\n!! PREFETCH_ABORT !!\r\n");
-	show_regs(regs);
-	while(1);
+    printf("\r\n!! PREFETCH_ABORT !!\r\n");
+    show_regs(regs);
+    while(1);
 }
 
 void arm32_do_software_interrupt(struct arm_regs_t * regs)
 {
-	printf("\r\n!! SOFT_INTERRUPT !!\r\n");
-	show_regs(regs);
-	while(1);
+    printf("\r\n!! SOFT_INTERRUPT !!\r\n");
+    show_regs(regs);
+    while(1);
 }
 
 void arm32_do_prefetch_abort(struct arm_regs_t * regs)
 {
-	printf("\r\n!! PREFETCH_ABORT !!\r\n");
-	show_regs(regs);
-	while(1);
+    printf("\r\n!! PREFETCH_ABORT !!\r\n");
+    show_regs(regs);
+    while(1);
 }
 
 void arm32_do_data_abort(struct arm_regs_t * regs)
 {
-	printf("\r\n!! DATA_ABORT !!\r\n");
-	show_regs(regs);
-	while(1);
+    printf("\r\n!! DATA_ABORT !!\r\n");
+    show_regs(regs);
+    while(1);
 }
 
 void arm32_do_irq(struct pt_regs *pt_regs)
 {
-	IRQ_Handler_global();
+    IRQ_Handler_global();
 }
 
 
 
 void arm32_do_fiq(struct arm_regs_t * regs)
 {
-	IRQ_Handler_global();
-	//interrupt_handle_exception(regs);
+    IRQ_Handler_global();
+    //interrupt_handle_exception(regs);
 }

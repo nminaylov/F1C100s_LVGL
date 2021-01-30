@@ -5,14 +5,14 @@
 
 #define TOUCH_BASE 0x01C24800
 
-#define TOUCH_REG0 		(*(uint32_t *)(TOUCH_BASE + 0x00))
-#define TOUCH_REG1 		(*(uint32_t *)(TOUCH_BASE + 0x04))
-#define TOUCH_REG2 		(*(uint32_t *)(TOUCH_BASE + 0x08))
-#define TOUCH_REG3 		(*(uint32_t *)(TOUCH_BASE + 0x0C))
+#define TOUCH_REG0      (*(uint32_t *)(TOUCH_BASE + 0x00))
+#define TOUCH_REG1      (*(uint32_t *)(TOUCH_BASE + 0x04))
+#define TOUCH_REG2      (*(uint32_t *)(TOUCH_BASE + 0x08))
+#define TOUCH_REG3      (*(uint32_t *)(TOUCH_BASE + 0x0C))
 #define TOUCH_FIFO_CTRL (*(uint32_t *)(TOUCH_BASE + 0x10))
 #define TOUCH_FIFO_STAT (*(uint32_t *)(TOUCH_BASE + 0x14))
-#define TOUCH_COM_DATA 	(*(uint32_t *)(TOUCH_BASE + 0x1C))
-#define TOUCH_DATA 		(*(uint32_t *)(TOUCH_BASE + 0x24))
+#define TOUCH_COM_DATA  (*(uint32_t *)(TOUCH_BASE + 0x1C))
+#define TOUCH_DATA      (*(uint32_t *)(TOUCH_BASE + 0x24))
 
 #define TOUCH_X_MAX 800
 #define TOUCH_Y_MAX 480

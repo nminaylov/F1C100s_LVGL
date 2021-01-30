@@ -4,7 +4,7 @@
 #include <sys/times.h>
 #include <sys/unistd.h>
 
-#define HEAP_SIZE		0x00100000
+#define HEAP_SIZE        0x00100000
 
 // errno
 #undef errno
@@ -37,7 +37,7 @@ int _fstat(int file, struct stat *st)
  */
 int _isatty(int file)
 {
-	return 0;
+    return 0;
 }
 
 /*
@@ -53,26 +53,26 @@ int _lseek(int file, int ptr, int dir)
  */
 caddr_t _sbrk_r(struct _reent* r, int incr)
 {
-	char* _old_brk = _cur_brk;
+    char* _old_brk = _cur_brk;
 
-	if ((_cur_brk + incr) > (heap + HEAP_SIZE))
-	{
-		uint8_t i;
+    if ((_cur_brk + incr) > (heap + HEAP_SIZE))
+    {
+        uint8_t i;
 
-		char* msg = "HEAP FULL!\r\n";
+        char* msg = "HEAP FULL!\r\n";
 
-		for (i = 0; i < strlen(msg); i++)
-		{
-			_putchar(msg[i]);
-		}
+        for (i = 0; i < strlen(msg); i++)
+        {
+            _putchar(msg[i]);
+        }
 
-		errno = ENOMEM;
-		return (void *)-1;
-	}
+        errno = ENOMEM;
+        return (void *)-1;
+    }
 
-	_cur_brk += incr;
+    _cur_brk += incr;
 
-	return (caddr_t)_old_brk;
+    return (caddr_t)_old_brk;
 }
 
 /*
@@ -89,14 +89,14 @@ int _read(int file, char *ptr, int len)
  */
 int _write(int file, char *ptr, int len)
 {
-	for (uint32_t i = 0; i < len; i++)
-	{
-		if (ptr[i] == '\n')
-		{
-			_putchar('\r');
-		}
-		_putchar(ptr[i]);
-	}
-	return len;
+    for (uint32_t i = 0; i < len; i++)
+    {
+        if (ptr[i] == '\n')
+        {
+            _putchar('\r');
+        }
+        _putchar(ptr[i]);
+    }
+    return len;
 }
 

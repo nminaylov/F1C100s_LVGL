@@ -11,14 +11,14 @@
 
 #define SAVE_X_OFFSET
 
-#define LCD_RES_DN 	LL_GPIO_ResetOutputPin(GPIOD,LL_GPIO_PIN_7)
-#define LCD_RES_UP 	LL_GPIO_SetOutputPin(GPIOD,LL_GPIO_PIN_7)
-#define LCD_BL_OFF 	LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_7)
-#define LCD_BL_ON	LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_7)
-#define LCD_DC_DN 	LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_6)
-#define LCD_DC_UP 	LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_6)
-#define LCD_CS_DN 	LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_4)
-#define LCD_CS_UP 	LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_4)
+#define LCD_RES_DN     LL_GPIO_ResetOutputPin(GPIOD,LL_GPIO_PIN_7)
+#define LCD_RES_UP     LL_GPIO_SetOutputPin(GPIOD,LL_GPIO_PIN_7)
+#define LCD_BL_OFF     LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_7)
+#define LCD_BL_ON    LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_7)
+#define LCD_DC_DN     LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_6)
+#define LCD_DC_UP     LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_6)
+#define LCD_CS_DN     LL_GPIO_ResetOutputPin(GPIOB,LL_GPIO_PIN_4)
+#define LCD_CS_UP     LL_GPIO_SetOutputPin(GPIOB,LL_GPIO_PIN_4)
 
 #define RED   0xff0000//0xF800
 #define GREEN 0x00ff00//0x07E0
@@ -44,7 +44,7 @@
 //#define WHITE           0xFFFF      /* 255, 255, 255 */
 //#define ORANGE          0xFD20      /* 255, 165,   0 */
 //#define GREENYELLOW     0xAFE5      /* 173, 255,  47 */
-//#define BROWN 		  0xBC40
+//#define BROWN           0xBC40
 //#define BRRED           0xFC07
 
 #define LCD_printf(...) fctprintf(&LCD_out, NULL, __VA_ARGS__)

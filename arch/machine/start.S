@@ -25,276 +25,276 @@
 #define FLASH_IMAGE 0
 
 .text
-	.arm
+    .arm
 
 #if (FLASH_IMAGE == 1)
 
-	/* Boot head information for BROM */
-	b _start
-	.byte 'e', 'G', 'O', 'N', '.', 'B', 'T', '0'
-	.long 0, __image_end     /* checksum, len */
-	.byte 'S', 'P', 'L', 2
-	.long 0, 0
-	.long 0, 0, 0, 0, 0, 0, 0, 0
-	.long 0, 0, 0, 0, 0, 0, 0, 0
+    /* Boot head information for BROM */
+    b _start
+    .byte 'e', 'G', 'O', 'N', '.', 'B', 'T', '0'
+    .long 0, __image_end     /* checksum, len */
+    .byte 'S', 'P', 'L', 2
+    .long 0, 0
+    .long 0, 0, 0, 0, 0, 0, 0, 0
+    .long 0, 0, 0, 0, 0, 0, 0, 0
 
 #endif
 
 /*
  * Exception vector table
  */
-	
+    
 .globl _start
 _start:
 
 _vector:
-	b reset
-	ldr pc, _undefined_instruction
-	ldr pc, _software_interrupt
-	ldr pc, _prefetch_abort
-	ldr pc, _data_abort
-	ldr pc, _not_used
-	ldr pc, _irq
-	ldr pc, _fiq
+    b reset
+    ldr pc, _undefined_instruction
+    ldr pc, _software_interrupt
+    ldr pc, _prefetch_abort
+    ldr pc, _data_abort
+    ldr pc, _not_used
+    ldr pc, _irq
+    ldr pc, _fiq
 
 _undefined_instruction:
-	.word undefined_instruction
+    .word undefined_instruction
 _software_interrupt:
-	.word software_interrupt
+    .word software_interrupt
 _prefetch_abort:
-	.word prefetch_abort
+    .word prefetch_abort
 _data_abort:
-	.word data_abort
+    .word data_abort
 _not_used:
-	.word not_used
+    .word not_used
 _irq:
-	.word irq
+    .word irq
 _fiq:
-	.word fiq
+    .word fiq
 
 reset:
 /*
  * The actual reset code
  */
-	/* Enter svc mode and mask interrupts */
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r0, r0, #0xd3
-	msr cpsr, r0
+    /* Enter svc mode and mask interrupts */
+    mrs r0, cpsr
+    bic r0, r0, #0x1f
+    orr r0, r0, #0xd3
+    msr cpsr, r0
 
-	/* Set vector to the low address */
-	mrc p15, 0, r0, c1, c0, 0
-	bic r0, #(1<<13)
-	mcr p15, 0, r0, c1, c0, 0
+    /* Set vector to the low address */
+    mrc p15, 0, r0, c1, c0, 0
+    bic r0, #(1<<13)
+    mcr p15, 0, r0, c1, c0, 0
 
-	/* Copy vector to the correct address */
-	adr r0, _vector
-	mrc p15, 0, r2, c1, c0, 0
-	ands r2, r2, #(1 << 13)
-	ldreq r1, =0x00000000
-	ldrne r1, =0xffff0000
-	ldmia r0!, {r2-r8, r10}
-	stmia r1!, {r2-r8, r10}
-	ldmia r0!, {r2-r8, r10}
-	stmia r1!, {r2-r8, r10}
+    /* Copy vector to the correct address */
+    adr r0, _vector
+    mrc p15, 0, r2, c1, c0, 0
+    ands r2, r2, #(1 << 13)
+    ldreq r1, =0x00000000
+    ldrne r1, =0xffff0000
+    ldmia r0!, {r2-r8, r10}
+    stmia r1!, {r2-r8, r10}
+    ldmia r0!, {r2-r8, r10}
+    stmia r1!, {r2-r8, r10}
 
-	/* Initial system clock, ddr add uart */
-	bl sys_clock_init
-//	bl sys_dram_init
-	bl sys_uart_init
+    /* Initial system clock, ddr add uart */
+    bl sys_clock_init
+//    bl sys_dram_init
+    bl sys_uart_init
 
-	/* Initialize stacks */
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r1, r0, #0x1b
-	msr cpsr_cxsf, r1
-	ldr sp, _stack_und_end
+    /* Initialize stacks */
+    mrs r0, cpsr
+    bic r0, r0, #0x1f
+    orr r1, r0, #0x1b
+    msr cpsr_cxsf, r1
+    ldr sp, _stack_und_end
 
-	bic r0, r0, #0x1f
-	orr r1, r0, #0x17
-	msr cpsr_cxsf, r1
-	ldr sp, _stack_abt_end
+    bic r0, r0, #0x1f
+    orr r1, r0, #0x17
+    msr cpsr_cxsf, r1
+    ldr sp, _stack_abt_end
 
-	bic r0, r0, #0x1f
-	orr r1, r0, #0x12
-	msr cpsr_cxsf, r1
-	ldr sp, _stack_irq_end
+    bic r0, r0, #0x1f
+    orr r1, r0, #0x12
+    msr cpsr_cxsf, r1
+    ldr sp, _stack_irq_end
 
-	bic r0, r0, #0x1f
-	orr r1, r0, #0x11
-	msr cpsr_cxsf, r1
-	ldr sp, _stack_fiq_end
+    bic r0, r0, #0x1f
+    orr r1, r0, #0x11
+    msr cpsr_cxsf, r1
+    ldr sp, _stack_fiq_end
 
-	bic r0, r0, #0x1f
-	orr r1, r0, #0x13
-	msr cpsr_cxsf, r1
-	ldr sp, _stack_svc_end
+    bic r0, r0, #0x1f
+    orr r1, r0, #0x13
+    msr cpsr_cxsf, r1
+    ldr sp, _stack_svc_end
 
-	/* Copy data section */
-//	ldr r0, _data_start
-//	ldr r1, _data_shadow_start
-//	ldr r2, _data_shadow_end
-//	sub r2, r2, r1
-//	bl memcpy
+    /* Copy data section */
+//    ldr r0, _data_start
+//    ldr r1, _data_shadow_start
+//    ldr r2, _data_shadow_end
+//    sub r2, r2, r1
+//    bl memcpy
 
-	/* Clear bss section */
-	ldr r0, _bss_start
-	ldr r2, _bss_end
-	sub r2, r2, r0
-	mov r1, #0
-	bl memset
+    /* Clear bss section */
+    ldr r0, _bss_start
+    ldr r2, _bss_end
+    sub r2, r2, r0
+    mov r1, #0
+    bl memset
 
-	/* Call _main */
-	ldr r1, =_main
-	mov pc, r1
+    /* Call _main */
+    ldr r1, =_main
+    mov pc, r1
 _main:
-	mov r0, #0;
-	mov r1, #0;
-	bl main
-	b _main
+    mov r0, #0;
+    mov r1, #0;
+    bl main
+    b _main
 
 /*
  * Exception handlers
  */
-	.align 5
+    .align 5
 undefined_instruction:
-	ldr sp, _stack_und_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_undefined_instruction
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_und_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_undefined_instruction
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
-	.align 5
+    .align 5
 software_interrupt:
-	ldr sp, _stack_irq_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_software_interrupt
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_irq_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_software_interrupt
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
-	.align 5
+    .align 5
 prefetch_abort:
-	ldr sp, _stack_abt_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_prefetch_abort
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_abt_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_prefetch_abort
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
-	.align 5
+    .align 5
 data_abort:
-	ldr sp, _stack_abt_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_data_abort
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_abt_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_data_abort
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
-	.align 5
+    .align 5
 not_used:
-	b .
+    b .
 
-	.align 5
+    .align 5
 irq:
-	ldr sp, _stack_irq_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_irq
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_irq_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_irq
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
-	.align 5
+    .align 5
 fiq:
-	ldr sp, _stack_fiq_end
-	sub sp, sp, #72
-	stmia sp, {r0 - r12}
-	add r8, sp, #60
-	stmdb r8, {sp, lr}^
-	str lr, [r8, #0]
-	mrs r6, spsr
-	str r6, [r8, #4]
-	str r0, [r8, #8]
-	mov r0, sp
-	bl arm32_do_fiq
-	ldmia sp, {r0 - lr}^
-	mov r0, r0
-	ldr lr, [sp, #60]
-	add sp, sp, #72
-	subs pc, lr, #4
+    ldr sp, _stack_fiq_end
+    sub sp, sp, #72
+    stmia sp, {r0 - r12}
+    add r8, sp, #60
+    stmdb r8, {sp, lr}^
+    str lr, [r8, #0]
+    mrs r6, spsr
+    str r6, [r8, #4]
+    str r0, [r8, #8]
+    mov r0, sp
+    bl arm32_do_fiq
+    ldmia sp, {r0 - lr}^
+    mov r0, r0
+    ldr lr, [sp, #60]
+    add sp, sp, #72
+    subs pc, lr, #4
 
 /*
  * The location of section
  */
- 	.align 4
+     .align 4
 
 _data_start:
-	.long __data_start
+    .long __data_start
 _data_end:
-	.long __data_end
+    .long __data_end
 _bss_start:
-	.long __bss_start
+    .long __bss_start
 _bss_end:
-	.long __bss_end
+    .long __bss_end
 _stack_und_end:
-	.long __stack_und_end
+    .long __stack_und_end
 _stack_abt_end:
-	.long __stack_abt_end
+    .long __stack_abt_end
 _stack_irq_end:
-	.long __stack_irq_end
+    .long __stack_irq_end
 _stack_fiq_end:
-	.long __stack_fiq_end
+    .long __stack_fiq_end
 _stack_svc_end:
-	.long __stack_svc_end
+    .long __stack_svc_end
 
